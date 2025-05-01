@@ -13,7 +13,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      - name: Copy env file for frontend
+        run: aws s3 cp s3://indiaopenmic-media-uploads/.env ./indian-open-mic-ui/.env
+        
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
