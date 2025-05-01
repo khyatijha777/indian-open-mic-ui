@@ -3,13 +3,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
+import ProtectedRoute from './ProtectedRoutes';
 // Add other pages like Signup, Upload, etc., as needed
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+      <Route path="/" element={<ProtectedRoute>
+          <Home />
+        </ProtectedRoute>} />
+        <Route path="/my-videos" element={<ProtectedRoute>
+          <Home />
+        </ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         {/* You can add more routes like below */}
         {/* <Route path="/signup" element={<Signup />} /> */}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +8,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const API_URL = process.env.REACT_APP_API_URL + '/auth/login';
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -18,21 +19,29 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        setStatusMessage('✅ Login successful!');
-        // Optionally: redirect, store token, etc.
+      if (email && password) {
+        // ✅ Save user in localStorage (mock login)
+        localStorage.setItem('user', JSON.stringify({ email }));
+        navigate('/');
       } else {
-        const data = await response.json();
-        setStatusMessage(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
+        setStatusMessage(`❌ Login failed: ${ 'Invalid credentials'}`);
+        // alert('❌ Please enter both username and password');
       }
+      // const response = await fetch(API_URL, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ email, password }),
+      // });
+
+      // if (response.ok) {
+      //   setStatusMessage('✅ Login successful!');
+      //   // Optionally: redirect, store token, etc.
+      // } else {
+      //   const data = await response.json();
+      //   setStatusMessage(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
+      // }
     } catch (error) {
       console.error('Login Error:', error);
       setStatusMessage('❌ Login failed. Please try again.');

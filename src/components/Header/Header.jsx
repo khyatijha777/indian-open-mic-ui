@@ -38,7 +38,7 @@ const Header = () => {
 
       <nav style={{ display: 'flex', gap: '24px' }}>
         <StyledLink to="/">Home</StyledLink>
-        {/* <StyledLink to="/login">Login</StyledLink> */}
+        <StyledLink to="/login">Login</StyledLink>
         <StyledLink to="/my-videos">My Videos</StyledLink>
       </nav>
 
