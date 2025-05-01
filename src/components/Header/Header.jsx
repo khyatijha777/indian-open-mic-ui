@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // ✅ Reusable styled Link component
 const StyledLink = ({ to, children }) => (
@@ -20,6 +20,14 @@ const StyledLink = ({ to, children }) => (
 );
 
 const Header = () => {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const displayName = user?.email?.split('@')[0] || 'User';
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
   return (
     <header style={{
       display: 'flex',
@@ -38,14 +46,14 @@ const Header = () => {
 
       <nav style={{ display: 'flex', gap: '24px' }}>
         <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/login">Login</StyledLink>
+        
         <StyledLink to="/my-videos">My Videos</StyledLink>
       </nav>
 
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span style={{ marginRight: '8px' }}>KJ</span>
+      <div style={{ display: 'flex', alignItems: 'center' , gap:"5px"}}>
+        <span style={{ marginRight: '8px' }}>{displayName ||""}</span>
         <div style={{
           width: '36px',
           height: '36px',
@@ -60,6 +68,19 @@ const Header = () => {
         }}>
           👤
         </div>
+        <button
+              onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'white',
+                fontSize: '16px',
+                cursor: 'pointer',
+                textDecoration: 'underline'
+              }}
+            >
+              Logout
+            </button>
       </div>
     </header>
   );
