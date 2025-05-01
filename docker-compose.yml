@@ -1,9 +1,8 @@
-version: '3.8'
-
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
     ports:
       - "${PORT:-3000}:80"
-    environment:
-      - PORT=${PORT:-3000} 
