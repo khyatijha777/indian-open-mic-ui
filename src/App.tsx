@@ -1,14 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Home from './components/Home/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
+import Home from './components/Home/Home';
+import Login from './components/Auth/Login';
+// Add other pages like Signup, Upload, etc., as needed
+
+const App = () => {
   return (
-    <div className="App">
-      <Home/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        {/* You can add more routes like below */}
+        {/* <Route path="/signup" element={<Signup />} /> */}
+        {/* <Route path="/upload" element={<Upload />} /> */}
+
+        {/* Optional: 404 Not Found fallback */}
+        <Route path="*" element={<h2 style={{ textAlign: 'center' }}>404: Page Not Found</h2>} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
