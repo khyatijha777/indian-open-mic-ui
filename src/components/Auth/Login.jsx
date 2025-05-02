@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../constants';
+import Header from '../Header/Header';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -45,6 +47,8 @@ const Login = () => {
   };
 
   return (
+    <div>
+      <Header />
     <div style={{ maxWidth: '400px', margin: '80px auto', padding: '24px', border: '1px solid #ccc', borderRadius: '8px' }}>
       <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -88,6 +92,10 @@ const Login = () => {
         </button>
       </form>
       {statusMessage && <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>{statusMessage}</p>}
+      <p style={{ marginTop: '20px', textAlign: 'center' }}>
+        New to Indian Open Mic? <Link to="/signup">Signup</Link>
+      </p>
+    </div>
     </div>
   );
 };

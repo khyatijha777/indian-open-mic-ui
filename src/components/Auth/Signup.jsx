@@ -1,92 +1,104 @@
-// Signup.tsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../constants';
+import Header from '../Header/Header';
+import { Link } from 'react-router-dom';
 
-const Signup= () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+const Signup = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.username.trim()) {
-      newErrors.username = "Username is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Signup Successful:", formData);
-      // TODO: Send signup request to backend
+
+    if (!email || !password) {
+      setStatusMessage('❌ Please fill in all fields.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('user', JSON.stringify(data));
+        setStatusMessage('✅ Signup successful!');
+        navigate('/');
+      } else {
+        const data = await response.json();
+        setStatusMessage(`❌ Signup failed: ${data.message || 'Something went wrong.'}`);
+      }
+    } catch (error) {
+      console.error('Signup Error:', error);
+      setStatusMessage('❌ Signup failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Signup</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+    <div>
+      <Header/>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-
+    
+    <div style={{ maxWidth: '400px', margin: '80px auto', padding: '24px', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '16px' }}>
+          <label>Email:</label>
+          <br />
+          <input
+            type='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder='Enter your email'
+            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <label>Password:</label>
+          <br />
+          <input
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='Enter your password'
+            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+        </div>
         <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          type='submit'
+          disabled={loading}
+          style={{
+            width: '100%',
+            padding: '10px',
+            backgroundColor: loading ? '#aaa' : '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            fontSize: '16px',
+          }}
         >
-          Sign Up
+          {loading ? 'Signing up...' : 'Sign Up'}
         </button>
       </form>
+      {statusMessage && <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>{statusMessage}</p>}
+      <p style={{ marginTop: '20px', textAlign: 'center' }}>
+        Already signed up? <Link to="/login">Login</Link>
+      </p>
+    </div>
     </div>
   );
 };

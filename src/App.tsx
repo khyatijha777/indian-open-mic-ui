@@ -5,6 +5,7 @@ import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import ProtectedRoute from './ProtectedRoutes';
 import Gallery from './components/Gallary/Gallery';
+import Signup from './components/Auth/Signup';
 // Add other pages like Signup, Upload, etc., as needed
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Gallery />
         </ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         {/* You can add more routes like below */}
         {/* <Route path="/signup" element={<Signup />} /> */}
         {/* <Route path="/upload" element={<Upload />} /> */}

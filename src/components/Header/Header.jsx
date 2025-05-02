@@ -22,7 +22,8 @@ const StyledLink = ({ to, children }) => (
 const Header = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || 'null');
-  const displayName = user?.email?.split('@')[0] || 'User';
+  const displayName = user?.email?.split('@')?.length ? user?.email?.split('@')[0] : null;
+  console.log("display name: ", displayName);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -52,8 +53,8 @@ const Header = () => {
 
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center' , gap:"5px"}}>
-        <span style={{ marginRight: '8px' }}>{displayName ||""}</span>
+     { displayName && <div style={{ display: 'flex', alignItems: 'center' , gap:"5px"}}>
+         <span style={{ marginRight: '8px' }}>{displayName }</span>
         <div style={{
           width: '36px',
           height: '36px',
@@ -81,7 +82,7 @@ const Header = () => {
             >
               Logout
             </button>
-      </div>
+      </div>}
     </header>
   );
 };
