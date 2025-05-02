@@ -15,7 +15,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
       setStatusMessage('❌ Please fill in all fields.');
       return;
     }
@@ -27,7 +27,7 @@ const Signup = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (response.ok) {
@@ -55,6 +55,18 @@ const Signup = () => {
     <div style={{ maxWidth: '400px', margin: '80px auto', padding: '24px', border: '1px solid #ccc', borderRadius: '8px' }}>
       <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Sign Up</h2>
       <form onSubmit={handleSubmit}>
+
+      <div style={{ marginBottom: '16px' }}>
+          <label>Name:</label>
+          <input
+            type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder='Enter your name'
+            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+        </div>
+
         <div style={{ marginBottom: '16px' }}>
           <label>Email:</label>
           <br />
