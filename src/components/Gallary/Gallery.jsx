@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../constants';
 import Header from '../Header/Header';
 
-
 function Gallery() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,7 @@ function Gallery() {
       const videoId = post.youtubeUrl.split('v=')[1]?.split('&')[0];
       return (
         <iframe
-          width="300"
+          width="100%"
           height="200"
           src={`https://www.youtube.com/embed/${videoId}`}
           frameBorder="0"
@@ -36,7 +35,7 @@ function Gallery() {
       );
     } else if (post.mediaUrl?.trim().endsWith('.mp4')) {
       return (
-        <video width="300" controls>
+        <video width="100%" controls>
           <source src={post.mediaUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -46,7 +45,7 @@ function Gallery() {
         <img
           src={post.mediaUrl}
           alt={post.caption}
-          style={{ maxWidth: '300px', marginTop: '10px' }}
+          style={{ width: '100%', marginTop: '10px' }}
         />
       );
     }
@@ -64,14 +63,31 @@ function Gallery() {
         {posts.length === 0 ? (
           <p>No published posts found.</p>
         ) : (
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <ul
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px',
+            }}
+          >
             {posts.map((post) => (
-              <li key={post.id} style={{ marginBottom: '30px' }}>
+              <li
+                key={post.id}
+                style={{
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  padding: '15px',
+                  width: '300px',
+                  boxSizing: 'border-box',
+                  flex: '0 1 auto',
+                }}
+              >
                 <strong>{post.caption}</strong>
                 <br />
                 <small>By: {post.user?.name || 'Anonymous'}</small>
                 <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
-                <hr />
               </li>
             ))}
           </ul>
