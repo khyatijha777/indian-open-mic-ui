@@ -84,10 +84,15 @@ function Gallery() {
                   flex: '0 1 auto',
                 }}
               >
-                <strong>{post.caption}</strong>
                 <br />
                 <small>By: {post.user?.name || 'Anonymous'}</small>
                 <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
+                <div style={{ marginBottom: '10px' }}>{renderMedia(post)}</div>
+                <div style={{ marginTop: '5px' }}>
+                  <strong>{post.caption}</strong>
+                  <br />
+                  <small>By: {post.user?.name || 'Anonymous'}</small>
+                </div>
               </li>
             ))}
           </ul>
