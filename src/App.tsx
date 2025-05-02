@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import ProtectedRoute from './ProtectedRoutes';
+import Gallery from './components/Gallary/Gallery';
 // Add other pages like Signup, Upload, etc., as needed
 
 const App = () => {
@@ -14,7 +15,7 @@ const App = () => {
           <Home />
         </ProtectedRoute>} />
         <Route path="/my-videos" element={<ProtectedRoute>
-          <Home />
+          <Gallery />
         </ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         {/* You can add more routes like below */}
