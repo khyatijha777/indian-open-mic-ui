@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../Header/Header';
+import { API_URL } from '../../constants';
+console.log('🚀 ~ API_URL:', API_URL);
 
 const Home = () => {
   const [file, setFile] = useState(null);
@@ -7,7 +9,8 @@ const Home = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_URL = process.env.REACT_APP_API_URL; // ✅ Loaded from .env
+  console.log('Envs: ', API_URL, process.env);
+  console.log('🚀 ~ Home ~ API_URL:', API_URL);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -31,7 +34,7 @@ const Home = () => {
       formData.append('file', file);
       formData.append('caption', caption);
 
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/posts`, {
         method: 'POST',
         body: formData,
       });
@@ -60,23 +63,25 @@ const Home = () => {
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
-            <label>Choose a photo or video:</label><br />
-            <input type="file" accept="image/*,video/*" onChange={handleFileChange} />
+            <label>Choose a photo or video:</label>
+            <br />
+            <input type='file' accept='image/*,video/*' onChange={handleFileChange} />
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-            <label>Caption:</label><br />
+            <label>Caption:</label>
+            <br />
             <input
-              type="text"
+              type='text'
               value={caption}
               onChange={handleCaptionChange}
-              placeholder="Enter a caption..."
+              placeholder='Enter a caption...'
               style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
             />
           </div>
 
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
             style={{
               width: '100%',
@@ -86,18 +91,14 @@ const Home = () => {
               border: 'none',
               borderRadius: '4px',
               cursor: loading ? 'not-allowed' : 'pointer',
-              fontSize: '16px'
+              fontSize: '16px',
             }}
           >
             {loading ? 'Uploading...' : 'Submit'}
           </button>
         </form>
 
-        {statusMessage && (
-          <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>
-            {statusMessage}
-          </p>
-        )}
+        {statusMessage && <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>{statusMessage}</p>}
       </div>
     </div>
   );
