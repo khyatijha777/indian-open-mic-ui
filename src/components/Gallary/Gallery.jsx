@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../constants';
+import Header from '../Header/Header';
 
 
 function Gallery() {
@@ -55,23 +56,27 @@ function Gallery() {
   if (loading) return <p>Loading posts...</p>;
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Gallery</h2>
-      {posts.length === 0 ? (
-        <p>No published posts found.</p>
-      ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {posts.map((post) => (
-            <li key={post.id} style={{ marginBottom: '30px' }}>
-              <strong>{post.caption}</strong>
-              <br />
-              <small>By: {post.user?.name || 'Anonymous'}</small>
-              <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
-              <hr />
-            </li>
-          ))}
-        </ul>
-      )}
+    <div>
+      <Header />
+
+      <div style={{ padding: '20px' }}>
+        <h2>Gallery</h2>
+        {posts.length === 0 ? (
+          <p>No published posts found.</p>
+        ) : (
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {posts.map((post) => (
+              <li key={post.id} style={{ marginBottom: '30px' }}>
+                <strong>{post.caption}</strong>
+                <br />
+                <small>By: {post.user?.name || 'Anonymous'}</small>
+                <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
+                <hr />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
