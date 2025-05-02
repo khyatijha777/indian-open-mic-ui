@@ -30,7 +30,7 @@ const Login = () => {
       if (response.ok) {
         setStatusMessage('✅ Login successful!');
         const data = await response.json();
-        localStorage.setItem('user', data.access_token);
+        localStorage.setItem('user', data);
         navigate('/'); 
       } else {
         const data = await response.json();
