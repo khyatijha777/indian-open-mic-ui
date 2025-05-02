@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+ENV REACT_APP_API_URL=http://ec2-54-91-142-70.compute-1.amazonaws.com/api
 RUN npm run build
 
 # Stage 2: Serve the app with Nginx
