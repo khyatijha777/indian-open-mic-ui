@@ -23,7 +23,7 @@ const Signup = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/auth/signup`, {
+      const response = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const Signup = () => {
           />
         </div>
 
-        <div style={{ marginBottom: '16px' }}>
+        <div style={{ marginBottom: '16px' }}>  
           <label>Email:</label>
           <br />
           <input
