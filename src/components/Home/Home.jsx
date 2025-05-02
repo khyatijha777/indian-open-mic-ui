@@ -37,6 +37,9 @@ const Home = () => {
       const response = await fetch(`${API_URL}/posts`, {
         method: 'POST',
         body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('user')}`,
+        },
       });
 
       if (response.ok) {

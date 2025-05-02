@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +8,6 @@ const Login = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_URL = process.env.REACT_APP_API_URL + '/auth/login';
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,29 +19,23 @@ const Login = () => {
 
     try {
       setLoading(true);
-      if (email && password) {
-        // ✅ Save user in localStorage (mock login)
-        localStorage.setItem('user', JSON.stringify({ email }));
-        navigate('/');
-      } else {
-        setStatusMessage(`❌ Login failed: ${ 'Invalid credentials'}`);
-        // alert('❌ Please enter both username and password');
-      }
-      // const response = await fetch(API_URL, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ email, password }),
-      // });
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // if (response.ok) {
-      //   setStatusMessage('✅ Login successful!');
-      //   // Optionally: redirect, store token, etc.
-      // } else {
-      //   const data = await response.json();
-      //   setStatusMessage(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
-      // }
+      if (response.ok) {
+        setStatusMessage('✅ Login successful!');
+        const data = await response.json();
+        localStorage.setItem('user', data.access_token);
+        // Optionally: redirect, store token, etc.
+      } else {
+        const data = await response.json();
+        setStatusMessage(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
+      }
     } catch (error) {
       console.error('Login Error:', error);
       setStatusMessage('❌ Login failed. Please try again.');
@@ -55,27 +49,29 @@ const Login = () => {
       <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Login</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '16px' }}>
-          <label>Email:</label><br />
+          <label>Email:</label>
+          <br />
           <input
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            placeholder='Enter your email'
             style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <label>Password:</label><br />
+          <label>Password:</label>
+          <br />
           <input
-            type="password"
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder='Enter your password'
             style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
           />
         </div>
         <button
-          type="submit"
+          type='submit'
           disabled={loading}
           style={{
             width: '100%',
@@ -85,17 +81,13 @@ const Login = () => {
             border: 'none',
             borderRadius: '4px',
             cursor: loading ? 'not-allowed' : 'pointer',
-            fontSize: '16px'
+            fontSize: '16px',
           }}
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
-      {statusMessage && (
-        <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>
-          {statusMessage}
-        </p>
-      )}
+      {statusMessage && <p style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>{statusMessage}</p>}
     </div>
   );
 };
