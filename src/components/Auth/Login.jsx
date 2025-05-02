@@ -31,7 +31,7 @@ const Login = () => {
         setStatusMessage('✅ Login successful!');
         const data = await response.json();
         localStorage.setItem('user', data.access_token);
-        // Optionally: redirect, store token, etc.
+        navigate('/'); 
       } else {
         const data = await response.json();
         setStatusMessage(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
