@@ -38,7 +38,8 @@ const Home = () => {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('user' ||'{}')?.access_token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') || '{}')?.access_token}`,
+          'Content-Type': 'application/json',
         },
       });
 
