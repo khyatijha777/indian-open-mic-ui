@@ -58,52 +58,53 @@ function Gallery() {
     return <p>No media available.</p>;
   };
 
-  if (loading) return <p>Loading posts...</p>;
-
   return (
     <div>
       <Header />
-
-      <div style={{ padding: '20px' }}>
-        <h2>Gallery</h2>
-        {posts.length === 0 ? (
-          <p>No published posts found.</p>
-        ) : (
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '20px',
-            }}
-          >
-            {posts.map((post) => (
-              <li
-                key={post.id}
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '8px',
-                  padding: '15px',
-                  width: '300px',
-                  boxSizing: 'border-box',
-                  flex: '0 1 auto',
-                }}
-              >
-                <br />
-                <small>By: {post.user?.name || 'Anonymous'}</small>
-                <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
-                <div style={{ marginBottom: '10px' }}>{renderMedia(post)}</div>
-                <div style={{ marginTop: '5px' }}>
-                  <strong>{post.caption}</strong>
+      {loading ? <p>Loading posts...</p> : (
+        <div style={{ padding: '20px' }}>
+          <h2>Gallery</h2>
+          {posts.length === 0 ? (
+            <p>No published posts found.</p>
+          ) : (
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '20px',
+              }}
+            >
+              {posts.map((post) => (
+                <li
+                  key={post.id}
+                  style={{
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    width: '300px',
+                    boxSizing: 'border-box',
+                    flex: '0 1 auto',
+                  }}
+                >
                   <br />
                   <small>By: {post.user?.name || 'Anonymous'}</small>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                  <div style={{ marginTop: '10px' }}>{renderMedia(post)}</div>
+                  <div style={{ marginBottom: '10px' }}>{renderMedia(post)}</div>
+                  <div style={{ marginTop: '5px' }}>
+                    <strong>{post.caption}</strong>
+                    <br />
+                    <small>By: {post.user?.name || 'Anonymous'}</small>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+
     </div>
   );
 }
