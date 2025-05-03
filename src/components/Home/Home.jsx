@@ -38,7 +38,7 @@ const Home = () => {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('user')}`,
+          Authorization: `Bearer ${localStorage.getItem('user' ||'{}')?.access_token}`,
         },
       });
 

@@ -7,7 +7,13 @@ function Gallery() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/posts`)
+    fetch(`${API_URL}/posts`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') || '{}')?.access_token}`,
+        'Content-Type': 'application/json',
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         const publishedPosts = data.filter((post) => post.isPublished);
