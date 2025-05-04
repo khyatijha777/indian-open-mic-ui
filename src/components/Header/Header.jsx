@@ -41,7 +41,7 @@ const Header = () => {
       fontWeight: 'bold',
       borderBottom: '2px solid #388E3C'
     }}>
-      <div>India Open Mic</div>
+      <div>Indian Open Mic</div>
       <div>
 
 
